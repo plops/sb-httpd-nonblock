@@ -17,7 +17,8 @@
     (setf (non-blocking-mode s) t)
     (setf (sockopt-reuse-address s) t)
     (socket-bind s (make-inet-address "127.0.0.1") 8888)
-    (socket-listen s 5)))
+    (socket-listen s 5)
+    s))
 
 
 (defun webserver-close-socket (s)
@@ -56,33 +57,30 @@
 (defparameter *serve-requests* t)
 
 
-(defun webserver-event-loop ()
+(defun webserver-event-loop (s)
  (loop while *serve-requests* do
       (update-swank)
-      (let ((s (socket-accept *s*)))
+      (let ((s (socket-accept s)))
 	(if (null s)
 	    (progn (format t ".") (force-output)
 		   (sleep .1))
-	    (progn
-	      (defparameter *str*
-		(socket-make-stream s
-				    :output t
-				    :input t
-				    :element-type 'character
-				    :buffering :none
-				    :auto-close t
-				    :serve-events t))
-	     
+	    (let ((str (socket-make-stream s
+					   :output t
+					   :input t
+					   :element-type 'character
+					   :buffering :none
+					   :auto-close t
+					   :serve-events t)))
 	      (prog1
-		  (let ((req  (loop while (listen *str*) collect
-				   (read-line *str*))))
+		  (let ((req  (loop while (listen str) collect
+				   (read-line str))))
 		    (cond
 		      ((string= (first req) "GET / HTTP/1.1")
 		       (format t "serve /~%")
 		       (force-output)
-		       (format *str* "HTTP/1.1 200 OK~%Content-type: text/html~%~%")
+		       (format str "HTTP/1.1 200 OK~%Content-type: text/html~%~%")
 		       (format
-			*str*
+			str
 			"<html>
 <body>
 <link rel=\"icon\" href=\"data:;base64,iVBORw0KGgo=\">hudwhu
@@ -101,14 +99,14 @@ source.addEventListener('message',function(e){
 //-->
 </script>	   
 </html>")
-		       (close *str*))
+		       (close str))
 		      ((string= (first req) "GET /event HTTP/1.1")
-		       (format *str* "HTTP/1.1 200 OK~%Content-type: text/event-stream~%~%")
+		       (format str "HTTP/1.1 200 OK~%Content-type: text/event-stream~%~%")
 		       (format t "serve /event~%")
 		       (force-output)
-		       (format *str* "data: ~a~C~C~C~C"
+		       (format str "data: ~a~C~C~C~C"
 			       (get-internal-real-time)
 			       #\return #\linefeed #\return #\linefeed)
-		       (push *str* *event*)))
+		       (push str *client-wanting-event*)))
 		    req)))))))
 
