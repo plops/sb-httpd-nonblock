@@ -48,13 +48,18 @@
 ;; </svg>"
 
 
-(send-event-to-all-clients
- (with-svg 
-   (:svg :width "100" :height "100" :version "1.1"
-	 :xmlns "http://www.w3.org/2000/svg" :|xmlns:xlink| "http://www.w3.org/1999/xlink"
-	 (:desc "This is a test image")
 
-	 (:circle :cx "50" :cy "50" :r "40" :stroke "green" :stroke-width "4" :fill "yellow")
-	 (:polyline :points "20,20 40,25 60,40 80,120 120,140 200,180"
-		    :style "fill:none;stroke:black;stroke-width:3"))))
+
+(send-event-to-all-clients
+ (concatenate 'string
+  (cl-who:with-html-output-to-string (s)
+    (:b "hello"))
+  (with-svg 
+    (:svg :width "100" :height "100" :version "1.1"
+	  :xmlns "http://www.w3.org/2000/svg" :|xmlns:xlink| "http://www.w3.org/1999/xlink"
+	  (:desc "This is a test image")
+
+	  (:circle :cx "50" :cy "50" :r "40" :stroke "green" :stroke-width "4" :fill "yellow")
+	  (:polyline :points "20,20 40,25 60,40 80,120 120,140 200,180"
+		     :style "fill:none;stroke:black;stroke-width:3")))))
 
