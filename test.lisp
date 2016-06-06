@@ -17,11 +17,11 @@
 (defmacro with-svg (&body body)
   (let ((s (gensym)))
    `(with-output-to-string (,s)
-      (format ,s "<?xml version=\"1.0\" standalone=\"yes\"?>~%~%")
+      ;(format ,s "<?xml version=\"1.0\" standalone=\"yes\"?>")
       (who:with-html-output
-	  (,s nil :prologue
-	     "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">"
-	     :indent T)
+	  (,s nil
+;	      :prologue "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">"
+	     :indent nil)
 	,@body))))
 
 #+nil
@@ -55,3 +55,11 @@
 	 (:desc "This is a test image")
 
 	 (:circle :cx "50" :cy "50" :r "40" :strok "green" :stroke-width "4" :fill "yellow"))))
+
+
+(with-svg 
+   (:svg :width "100" :height "100" :version "1.1"
+	 :xmlns "http://www.w3.org/2000/svg" :|xmlns:xlink| "http://www.w3.org/1999/xlink"
+	 (:desc "This is a test image")
+
+	 (:circle :cx "50" :cy "50" :r "40" :strok "green" :stroke-width "4" :fill "yellow")))

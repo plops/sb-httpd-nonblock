@@ -1,6 +1,3 @@
-(require :sb-bsd-sockets)
-
-
 (defpackage :nserv
   (:use :cl :sb-bsd-sockets)
   (:export
@@ -86,17 +83,17 @@
 		       (format
 			str
 			"<html>
-<body>
 <link rel=\"icon\" href=\"data:;base64,iVBORw0KGgo=\">
-<div id='feed'></div>
+<body>
 </body>
 <script type='text/javascript'>
 <!--
 window.onload=function(){
 var source = new EventSource('event');
 source.addEventListener('message',function(e){
-//  console.log(e.data);
-  var s=document.getElementById('feed');
+  console.log(e.data);
+  //var s=document.getElementById('feed');
+  var s = document.body;
   s.innerHTML=e.data;
     },false);
 }
