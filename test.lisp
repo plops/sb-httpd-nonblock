@@ -72,7 +72,7 @@
 	   :xmlns "http://www.w3.org/2000/svg" :|xmlns:xlink| "http://www.w3.org/1999/xlink"
 	   (:polyline :points (flet ((sca (x) (floor (* x 80))))
 			       (format nil "~{~{~a~} ~}"
-				       (loop for i below 100 collect (let ((x (/ i 10s0)))
+				       (loop for i below 50 collect (let ((x (/ i 20s0)))
 								       (list (sca x) "," (sca (+ 1 (sin (+ (/ j 20s0)  x)))))))))
 		     :style "fill:none;stroke:black;stroke-width:1")))))
 
