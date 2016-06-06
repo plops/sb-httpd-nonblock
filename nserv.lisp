@@ -37,7 +37,7 @@
 		    #\return #\linefeed #\return #\linefeed))
 	(sb-int:simple-stream-error ()
 	  (format t "delete ~a~%" v)
-	  (setf *event* (set-difference *event* (list v)))))))
+	  (setf *client-wanting-event* (set-difference *client-wanting-event* (list v)))))))
 
 #+nil
 (dotimes (I 190)
