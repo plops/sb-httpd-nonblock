@@ -64,8 +64,8 @@
 		     :style "fill:none;stroke:black;stroke-width:3")))))
 
 
-(dotimes (j 100)
-  (sleep .1)
+(dotimes (j 1000)
+  (sleep .01)
   (send-event-to-all-clients
    (with-svg 
      (:svg :width "950" :height "500" :version "1.1"
