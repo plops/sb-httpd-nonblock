@@ -6,4 +6,4 @@
 
 (webserver-event-loop *s*)
 
-(send-event-to-all-clients "huhu")
+(send-event-to-all-clients "huhu2")

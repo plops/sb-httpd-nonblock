@@ -9,7 +9,8 @@
    #:*client-wanting-event*
    #:send-event-to-all-clients
    #:*serve-requests*
-   #:webserver-event-loop))
+   #:webserver-event-loop
+   #:*event-loop-function*))
 (in-package :nserv)
 
 (defun webserver-open-socket ()
@@ -56,10 +57,13 @@
 (defparameter *serve-requests* nil)
 (defparameter *serve-requests* t)
 
+(defparameter *event-loop-function* nil)
 
 (defun webserver-event-loop (s)
  (loop while *serve-requests* do
       (update-swank)
+      (when *event-loop-function*
+	(funcall *event-loop-function*))
       (let ((s (socket-accept s)))
 	(if (null s)
 	    (progn (format t ".") (force-output)
