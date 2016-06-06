@@ -1,7 +1,7 @@
 # sb-httpd-nonblock
 
-Very simple single threaded web server to run a server sent
-event-based web interface on a Raspberry Pi.
+Very simple single threaded web server to run a 'server sent
+event'-based web interface on a Raspberry Pi.
 
 
 ## usage:
