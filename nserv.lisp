@@ -91,8 +91,7 @@
 window.onload=function(){
 var source = new EventSource('event');
 source.addEventListener('message',function(e){
-  console.log(e.data);
-  //var s=document.getElementById('feed');
+  //console.log(e.data);
   var s = document.body;
   s.innerHTML=e.data;
     },false);
