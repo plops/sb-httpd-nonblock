@@ -63,3 +63,16 @@
 	  (:polyline :points "20,20 40,25 60,40 80,120 120,140 200,180"
 		     :style "fill:none;stroke:black;stroke-width:3")))))
 
+
+(dotimes (j 100)
+  (sleep .1)
+  (send-event-to-all-clients
+   (with-svg 
+     (:svg :width "950" :height "500" :version "1.1"
+	   :xmlns "http://www.w3.org/2000/svg" :|xmlns:xlink| "http://www.w3.org/1999/xlink"
+	   (:polyline :points (flet ((sca (x) (floor (* x 80))))
+			       (format nil "~{~{~a~} ~}"
+				       (loop for i below 100 collect (let ((x (/ i 10s0)))
+								       (list (sca x) "," (sca (+ 1 (sin (+ (/ j 20s0)  x)))))))))
+		     :style "fill:none;stroke:black;stroke-width:1")))))
+
