@@ -83,7 +83,7 @@
 			str
 			"<html>
 <body>
-<link rel=\"icon\" href=\"data:;base64,iVBORw0KGgo=\">hudwhu
+<link rel=\"icon\" href=\"data:;base64,iVBORw0KGgo=\">
 <div id='feed'></div>
 </body>
 <script type='text/javascript'>
