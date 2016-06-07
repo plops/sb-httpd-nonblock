@@ -74,5 +74,30 @@
 			       (format nil "~{~{~a~} ~}"
 				       (loop for i below 50 collect (let ((x (/ i 20s0)))
 								       (list (sca x) "," (sca (+ 1 (sin (+ (/ j 20s0)  x)))))))))
-		     :style "fill:none;stroke:black;stroke-width:1")))))
+		      :style "fill:none;stroke:black;stroke-width:2")))))
+
+(dotimes (j 1000)
+  (sleep .01)
+  (send-event-to-all-clients
+   (concatenate
+    'string
+    (cl-who:with-html-output-to-string (sm)
+      (:table
+       (loop for i below 25 by 5 do
+	    (cl-who:htm (:tr
+		  (loop for j from i below (+ i 5)
+		     do
+		       (cl-who:htm (:td
+			     (if (= j 11)
+				 (cl-who:htm (:font :color "red"
+					     (cl-who:fmt "~a" (get-internal-run-time))))
+				 (cl-who:fmt "~a" j))))))))))
+    (with-svg 
+      (:svg :width "950" :height "500" :version "1.1"
+	    :xmlns "http://www.w3.org/2000/svg" :|xmlns:xlink| "http://www.w3.org/1999/xlink"
+	    (:polyline :points (flet ((sca (x) (floor (* x 80))))
+				 (format nil "~{~{~a~} ~}"
+					 (loop for i below 50 collect (let ((x (/ i 20s0)))
+									(list (sca x) "," (sca (+ 1 (sin (+ (/ j 20s0)  x)))))))))
+		       :style "fill:none;stroke:black;stroke-width:2"))))))
 
