@@ -107,6 +107,8 @@ source.addEventListener('message',function(e){
 		       (format str "data: ~a~C~C~C~C"
 			       (get-internal-real-time)
 			       #\return #\linefeed #\return #\linefeed)
-		       (push str *client-wanting-event*)))
+		       (push str *client-wanting-event*))
+		      (t (break "web client wants ~a. we don't have that. this should not happen."
+				req) (close str)))
 		    req)))))))
 
