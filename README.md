@@ -46,3 +46,6 @@ git clone https://github.com/plops/sb-httpd-nonblock
 ;; connect with webbrowser on host:8888
 (send-event-to-all-clients "huhu")
 ```
+
+Have a look at the file `screen_animation.webm` for a short screen
+capture of this code in action.

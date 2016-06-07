@@ -7,7 +7,7 @@
 
 (webserver-event-loop *s*)
 
-(send-event-to-all-clients "huhu2")
+(send-event-to-all-clients "test2")
 
 ;; how to use cl-who to generate svg:
 ;; https://lispnews.wordpress.com/2013/02/08/generating-svg-from-lisp-is-easy/
@@ -95,9 +95,11 @@
     (with-svg 
       (:svg :width "950" :height "500" :version "1.1"
 	    :xmlns "http://www.w3.org/2000/svg" :|xmlns:xlink| "http://www.w3.org/1999/xlink"
-	    (:polyline :points (flet ((sca (x) (floor (* x 80))))
-				 (format nil "~{~{~a~} ~}"
-					 (loop for i below 50 collect (let ((x (/ i 20s0)))
-									(list (sca x) "," (sca (+ 1 (sin (+ (/ j 20s0)  x)))))))))
+	    (:polyline :points
+		       (flet ((sca (x) (floor (* x 80))))
+			 (format nil "~{~{~a~} ~}"
+				 (loop for i below 50 collect
+				      (let ((x (/ i 20s0)))
+					(list (sca x) "," (sca (+ 1 (sin (+ (/ j 20s0)  x)))))))))
 		       :style "fill:none;stroke:black;stroke-width:2"))))))
 
