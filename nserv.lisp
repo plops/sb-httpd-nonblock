@@ -56,6 +56,15 @@
 
 (defparameter *event-loop-function* nil)
 
+(defparameter *css-style* "body {
+    background-color: lightblue;
+}
+
+h1 {
+    color: navy;
+    margin-left: 20px;
+}")
+
 (defun webserver-event-loop (s)
  (loop while *serve-requests* do
       (update-swank)
@@ -84,6 +93,9 @@
 			str
 			"<html>
 <link rel=\"icon\" href=\"data:;base64,iVBORw0KGgo=\">
+<head>
+<link rel=\"stylesheet\" type=\"text/css\" href=\"mystyle.css\">
+</head>
 <body>
 </body>
 <script type='text/javascript'>
@@ -99,6 +111,14 @@ source.addEventListener('message',function(e){
 //-->
 </script>	   
 </html>")
+		       (close str))
+		      ((string= (first req) "GET /mystyle.css HTTP/1.1")
+		       (format t "serve /mystyle.css~%")
+		       (force-output)
+		       (format str "HTTP/1.1 200 OK~%Content-type: text/css~%~%")
+		       (format
+			str
+			*css-style*)
 		       (close str))
 		      ((string= (first req) "GET /event HTTP/1.1")
 		       (format str "HTTP/1.1 200 OK~%Content-type: text/event-stream~%~%")
