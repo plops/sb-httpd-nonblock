@@ -56,6 +56,27 @@
 
 (defparameter *event-loop-function* nil)
 
+(defparameter *index-html* "<html>
+<link rel=\"icon\" href=\"data:;base64,iVBORw0KGgo=\">
+<head>
+<link rel=\"stylesheet\" type=\"text/css\" href=\"mystyle.css\">
+</head>
+<body>
+</body>
+<script type='text/javascript'>
+<!--
+window.onload=function(){
+var source = new EventSource('event');
+source.addEventListener('message',function(e){
+  //console.log(e.data);
+  var s = document.body;
+  s.innerHTML=e.data;
+    },false);
+}
+//-->
+</script>	   
+</html>")
+
 (defparameter *css-style* "body {
     background-color: lightblue;
 }
@@ -64,6 +85,8 @@ h1 {
     color: navy;
     margin-left: 20px;
 }")
+
+(defparameter *js-script* "")
 
 (defun webserver-event-loop (s)
  (loop while *serve-requests* do
@@ -91,26 +114,7 @@ h1 {
 		       (format str "HTTP/1.1 200 OK~%Content-type: text/html~%~%")
 		       (format
 			str
-			"<html>
-<link rel=\"icon\" href=\"data:;base64,iVBORw0KGgo=\">
-<head>
-<link rel=\"stylesheet\" type=\"text/css\" href=\"mystyle.css\">
-</head>
-<body>
-</body>
-<script type='text/javascript'>
-<!--
-window.onload=function(){
-var source = new EventSource('event');
-source.addEventListener('message',function(e){
-  //console.log(e.data);
-  var s = document.body;
-  s.innerHTML=e.data;
-    },false);
-}
-//-->
-</script>	   
-</html>")
+			*index-html*)
 		       (close str))
 		      ((string= (first req) "GET /mystyle.css HTTP/1.1")
 		       (format t "serve /mystyle.css~%")
@@ -119,6 +123,15 @@ source.addEventListener('message',function(e){
 		       (format
 			str
 			*css-style*)
+		       (close str))
+		      ((string= (first req) "GET /myscript.js HTTP/1.1")
+		       (format t "serve /myscript.js~%")
+		       (force-output)
+		       (format str "HTTP/1.1 200 OK~%Content-type: application/javascript~%~%")
+		       (write-sequence *js-script* str)
+		       #+nil (format
+			str
+			*js-script*)
 		       (close str))
 		      ((string= (first req) "GET /event HTTP/1.1")
 		       (format str "HTTP/1.1 200 OK~%Content-type: text/event-stream~%~%")

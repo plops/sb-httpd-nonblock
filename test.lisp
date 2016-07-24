@@ -5,6 +5,15 @@
 
 (defparameter *s* (webserver-open-socket))
 
+#+nil
+(setf *serve-requests* nil)
+#+nil
+(setf *serve-requests* t)
+
+#+nil
+(webserver-close-socket *s*)
+
+
 (webserver-event-loop *s*)
 
 (send-event-to-all-clients "test2")
